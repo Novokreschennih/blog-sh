@@ -26,10 +26,10 @@ eleventyNavigation:
 
 {# --- СЕТКА ОСТАЛЬНЫХ ПОСТОВ --- #}
 <h2 class="section-title">Остальные Статьи</h2>
-
+{% set postslist = collections.posts | slice(1) %}
 {# Готовим список для компонента (все посты, кроме первого) #}
 {% set postslist = collections.posts | reverse %}
-{% set postslist = collections.posts | slice(1) %}
+
 {# ВЫЗЫВАЕМ РАБОЧИЙ КОМПОНЕНТ #}
 {# Готовим список для компонента (все посты, новые сверху) #}
 
