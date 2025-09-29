@@ -1,59 +1,8 @@
-/* =================================================================== */
-/* === СТАНДАРТНЫЕ СТИЛИ ELEVENTY-BASE-BLOG (ОСТАВЛЯЕМ ИХ НИЖЕ) === */
-/* =================================================================== */
+/* Стандартные импорты из шаблона */
+@import "./message-box.css";
+@import "./prism-diff.css";
 
-/* Defaults */
-:root {
-	--font-family: -apple-system, system-ui, sans-serif;
-	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
-}
-
-/* Theme colors */
-:root {
-	--color-gray-20: #e0e0e0;
-	--color-gray-50: #C0C0C0;
-	--color-gray-90: #333;
-	--background-color: #fff;
-	--text-color: var(--color-gray-90);
-	--text-color-link: #082840;
-	--text-color-link-active: #5f2b48;
-	--text-color-link-visited: #17050F;
-	--syntax-tab-size: 2;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-gray-20: #e0e0e0;
-		--color-gray-50: #C0C0C0;
-		--color-gray-90: #dad8d8;
-		--text-color-link: #1493fb;
-		--text-color-link-active: #6969f7;
-		--text-color-link-visited: #a6a6f8;
-		--background-color: #15202b;
-	}
-}
-
-* { box-sizing: border-box; }
-html, body { padding: 0; margin: 0; }
-body { max-width: 40em; margin: auto; }
-.visually-hidden:not(:focus):not(:active) { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
-img { max-width: 100%; }
-img[width][height] { height: auto; }
-p, li { line-height: 1.5; }
-a[href] { color: var(--text-color-link); }
-a[href]:visited { color: var(--text-color-link-visited); }
-a[href]:hover, a[href]:active { color: var(--text-color-link-active); }
-main, footer { padding: 1rem; }
-header { border-bottom: 1px dashed var(--color-gray-20); display: flex; gap: 1em; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 1em; }
-.home-link { flex-grow: 1; font-size: 1em; font-weight: 700; }
-.home-link:link:not(:hover) { text-decoration: none; }
-.nav { display: flex; gap: .5em 1em; padding: 0; margin: 0; list-style: none; }
-.nav a[href][aria-current="page"] { text-decoration: underline; }
-
-/* =================================================================== */
-/* === НАША НОВАЯ ДИЗАЙН-СИСТЕМА (ПЕРЕОПРЕДЕЛЯЕТ СТИЛИ ВЫШЕ) === */
-/* =================================================================== */
-
+/* --- НАША НОВАЯ ДИЗАЙН-СИСТЕМА --- */
 :root {
     --primary: #6366f1;
     --secondary: #8b5cf6;
@@ -68,23 +17,26 @@ header { border-bottom: 1px dashed var(--color-gray-20); display: flex; gap: 1em
     --border: rgba(255, 255, 255, 0.1);
 }
 
+/* Глобальные стили и фон */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--darker);
     color: var(--light);
+    margin: 0; padding: 0;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
-    max-width: none; /* Отменяем ограничение ширины */
+    max-width: none;
 }
-
 body::before {
     content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: radial-gradient(800px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(99, 102, 241, 0.15), transparent 40%);
     pointer-events: none; z-index: -1;
 }
 
-/* Обертки для контента */
+/* Обертки */
 .container { padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
 .main-box {
     background: var(--glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
@@ -92,59 +44,85 @@ body::before {
     border: 1px solid var(--border); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 }
 
-/* Стилизация стандартных элементов */
-header, main, footer { max-width: 750px; margin: 0 auto; padding: 0; }
+/* Шапка */
+header, main, footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0;
+}
 header {
+    display: flex; justify-content: space-between; align-items: center;
     padding-bottom: 20px; margin-bottom: 40px; border-bottom: 1px solid var(--border);
 }
-header .home-link { font-size: 1.8rem; }
-header a, .nav a { color: var(--light); }
-header a:hover, .nav a:hover { color: var(--primary); }
-.nav a { color: var(--gray); font-weight: 500; }
+header .home-link { font-size: 1.8rem; font-weight: 800; color: var(--light); text-decoration: none; transition: color 0.3s; }
+header .home-link:hover { color: var(--primary); }
+nav { list-style: none; padding: 0; }
+.nav { display: flex; gap: 1em; list-style: none; padding: 0; }
+.nav a { color: var(--gray); font-weight: 500; text-decoration: none; transition: color 0.3s; }
 .nav a:hover { color: var(--neon); }
-.nav a[href][aria-current="page"] { color: var(--primary); font-weight: 700; text-decoration: none; }
-a { color: var(--neon); }
-a:visited { color: var(--neon); }
-a:hover, a:active { color: var(--primary); }
+.nav a[href][aria-current="page"] { color: var(--primary); font-weight: 700; }
+
+/* --- ГЛАВНАЯ СТРАНИЦА --- */
+.featured-post {
+    background: linear-gradient(45deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    padding: 40px;
+    border-radius: 20px;
+    margin-bottom: 60px;
+    border: 1px solid var(--primary);
+}
+.featured-post-content h2 { font-size: 2.5rem; margin-bottom: 15px; }
+.featured-post-content h2 a { color: var(--light); text-decoration: none; transition: color 0.3s; }
+.featured-post-content h2 a:hover { color: var(--neon); }
+.featured-post-content p { font-size: 1.2rem; color: var(--gray); margin-bottom: 20px; }
+.featured-post-content time { font-weight: 500; }
+.featured-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.section-title { font-size: 2.5rem; text-align: center; margin-bottom: 40px; }
 
 /* Сетка постов */
-.postlist {
-    list-style: none; padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
-}
-.postlist-item { margin-bottom: 0; display: block; }
+.postlist { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
 .postlist-item:before { content: none; }
 .postlist-link {
-    display: flex; flex-direction: column; height: 100%;
-    padding: 30px; background: var(--card-bg); border-radius: 15px;
-    border: 1px solid var(--border); transition: all 0.3s ease;
-    flex-basis: auto; color: var(--light); text-decoration: none;
+    display: flex; flex-direction: column; height: 100%; padding: 30px;
+    background: var(--card-bg); border-radius: 15px; border: 1px solid var(--border);
+    transition: all 0.3s ease; text-decoration: none;
 }
-.postlist-link:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    border-color: var(--primary);
-}
-h1, h2, h3, h4, h5, h6 { color: var(--light); }
-.postlist-link h2, .postlist-link p { font-size: 1.6rem; margin-bottom: 10px; color: var(--primary); font-weight: 700; }
+.postlist-link:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); border-color: var(--primary); }
+.postlist-link h2 { font-size: 1.6rem; margin-bottom: 10px; color: var(--primary); font-weight: 700; }
 .postlist-date, time { color: var(--gray); margin-bottom: 15px; font-size: 0.9rem; }
-.postlist-item p, article p { color: var(--gray); line-height: 1.7; flex-grow: 1; font-size: 1rem; }
+.postlist-excerpt { color: var(--light); line-height: 1.7; flex-grow: 1; font-size: 1rem; }
 
-/* Отдельный пост */
-main h1 { font-size: 2.8rem; }
-main h2 { font-size: 2.2rem; }
-main h1, main h2, main h3 { line-height: 1.3; margin-bottom: 20px; margin-top: 40px; color: var(--primary); }
-main pre { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px; overflow-x: auto; margin-bottom: 20px; border: 1px solid var(--border); }
-main code { font-family: 'Courier New', Courier, monospace; color: var(--accent); }
-main blockquote { border-left: 3px solid var(--primary); padding-left: 20px; margin: 30px 0; font-style: italic; color: var(--light); }
+/* --- СТРАНИЦА ПОСТА --- */
+.post-content { max-width: 750px; }
+.post-content h1 { font-size: 3rem; color: var(--light); line-height: 1.2; margin-bottom: 20px; }
+.post-content h2, .post-content h3 { line-height: 1.3; margin: 40px 0 20px; color: var(--primary); }
+.post-content h2 { font-size: 2.2rem; }
+.post-content p { margin-bottom: 20px; color: var(--gray); line-height: 1.8; font-size: 1.1rem; }
+.post-content a { color: var(--neon); text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s; }
+.post-content a:hover { border-bottom-color: var(--neon); }
+.post-content pre { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px; overflow-x: auto; margin-bottom: 20px; border: 1px solid var(--border); }
+.post-content code { font-family: 'Courier New', Courier, monospace; color: var(--accent); }
+.post-content blockquote { border-left: 3px solid var(--primary); padding-left: 20px; margin: 30px 0; font-style: italic; color: var(--light); }
+
+.post-metadata { display: flex; flex-wrap: wrap; align-items: center; gap: 1em; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.tags-list { display: flex; flex-wrap: wrap; gap: 0.5em; }
+.post-tag { background: var(--card-bg); color: var(--primary); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none; }
+.post-tag:hover { background: var(--primary); color: white; }
+
+.links-nextprev { display: flex; justify-content: space-between; gap: 2em; margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border); }
+.links-nextprev a { color: var(--gray); text-decoration: none; display: block; transition: all 0.3s; }
+.links-nextprev a:hover { color: var(--light); transform: translateY(-3px); }
+.links-nextprev span { font-size: 0.9rem; display: block; margin-bottom: 5px; }
+.links-nextprev strong { color: var(--primary); font-size: 1.1rem; }
+.links-nextprev-next { text-align: right; }
 
 footer { text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--gray); }
-
-@media (max-width: 768px) {
-    .main-box { padding: 30px 20px; }
-    header { flex-direction: column; gap: 10px; }
-    main h1 { font-size: 2.2rem; }
-    main h2 { font-size: 1.8rem; }
-}
+.visually-hidden { display: none; }
