@@ -2,12 +2,10 @@ import { DateTime } from "luxon";
 
 export default function(eleventyConfig) {
 	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
-		// --- ГЛАВНЫЙ ФИКС ---
-		// Превращаем dateObj в объект DateTime, даже если это уже он.
-		// Это делает фильтр устойчивым к разным форматам входящих данных.
+		// Устойчивый фильтр для дат
 		const dt = DateTime.fromJSDate(dateObj, { zone: zone || "utc" });
 		if (!dt.isValid) {
-			return "Invalid Date"; // Возвращаем понятную ошибку, если дата некорректна
+			return "Invalid Date";
 		}
 		return dt.toFormat(format || "dd LLLL yyyy");
 	});
@@ -40,4 +38,10 @@ export default function(eleventyConfig) {
 	eleventyConfig.addFilter("filterTagList", function filterTagList(tags) {
 		return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
 	});
+
+	// === ВОТ ОН, НЕДОСТАЮЩИЙ ФИЛЬТР ===
+	eleventyConfig.addFilter("sortAlphabetically", strings =>
+		(strings || []).sort((b, a) => b.localeCompare(a))
+	);
+	// ===================================
 };
