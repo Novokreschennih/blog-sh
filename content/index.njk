@@ -5,9 +5,10 @@ eleventyNavigation:
   order: 1
 ---
 
-{# Используем ТОЧНО ТАКУЮ ЖЕ логику, как на рабочей странице Архива #}
-{% set postslist = collections.posts | reverse %}
-{% set featuredPost = postslist[0] %}
+{# Получаем все посты и переворачиваем, чтобы новые были сверху #}
+{% set allPosts = collections.posts | reverse %}
+{# Первый пост в списке - наш "главный" #}
+{% set featuredPost = allPosts[0] %}
 
 {# --- БЛОК ДЛЯ ГЛАВНОГО ПОСТА --- #}
 {% if featuredPost %}
@@ -27,6 +28,6 @@ eleventyNavigation:
 <h2 class="section-title">Остальные Статьи</h2>
 
 {# Готовим список для компонента (все посты, кроме первого) #}
-{% set postslistForGrid = postslist | slice(1) %}
-{# ВЫЗЫВАЕМ РАБОЧИЙ КОМПОНЕНТ #}
-{% include "postslist.njk", postslist: postslistForGrid %}
+{% set postslist = allPosts | slice(1) %}
+{# ВЫЗЫВАЕМ РАБОЧИЙ КОМПОНЕНТ С ПРАВИЛЬНЫМ СИНТАКСИСОМ #}
+{% include "postslist.njk" %}
