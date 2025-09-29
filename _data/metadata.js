@@ -1,11 +1,11 @@
 export default {
-	title: "Eleventy Base Blog v9",
-	url: "https://example.com/",
-	language: "en",
-	description: "I am writing about my experiences as a naval navel-gazer.",
+	title: "Блог SetHubble",
+	url: "https://blog.sethubble.ru/", // Ваш домен
+	language: "ru",
+	description: "Новости, обновления и инсайты от SetHubble.",
 	author: {
-		name: "Your Name Here",
-		email: "youremailaddress@example.com",
-		url: "https://example.com/about-me/"
+		name: "SetHubble",
+		email: "your-email@example.com", // Ваш email
+		url: "https://sethubble.ru/" // Ссылка на ваш лендинг
 	}
 }
