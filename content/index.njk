@@ -30,4 +30,8 @@ eleventyNavigation:
 {# Готовим список для компонента (все посты, кроме первого) #}
 {% set postslist = allPosts | slice(1) %}
 {# ВЫЗЫВАЕМ РАБОЧИЙ КОМПОНЕНТ #}
+{# Готовим список для компонента (все посты, новые сверху) #}
+{% set postslist = collections.posts | reverse %}
+{# ВЫЗЫВАЕМ РАБОЧИЙ КОМПОНЕНТ #}
 {% include "postslist.njk" %}
+
