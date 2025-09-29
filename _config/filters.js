@@ -2,12 +2,17 @@ import { DateTime } from "luxon";
 
 export default function(eleventyConfig) {
 	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
-		// Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
-		return DateTime.fromJSDate(dateObj, { zone: zone || "utc" }).toFormat(format || "dd LLLL yyyy");
+		// --- ГЛАВНЫЙ ФИКС ---
+		// Превращаем dateObj в объект DateTime, даже если это уже он.
+		// Это делает фильтр устойчивым к разным форматам входящих данных.
+		const dt = DateTime.fromJSDate(dateObj, { zone: zone || "utc" });
+		if (!dt.isValid) {
+			return "Invalid Date"; // Возвращаем понятную ошибку, если дата некорректна
+		}
+		return dt.toFormat(format || "dd LLLL yyyy");
 	});
 
 	eleventyConfig.addFilter("htmlDateString", (dateObj) => {
-		// dateObj input: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
 		return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat('yyyy-LL-dd');
 	});
 
@@ -19,7 +24,6 @@ export default function(eleventyConfig) {
 		if( n < 0 ) {
 			return array.slice(n);
 		}
-
 		return array.slice(0, n);
 	});
 
@@ -34,10 +38,6 @@ export default function(eleventyConfig) {
 	});
 
 	eleventyConfig.addFilter("filterTagList", function filterTagList(tags) {
-		return (tags || []).filter(tag => ["all", "posts"].indexOf(tag) === -1);
+		return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
 	});
-
-	eleventyConfig.addFilter("sortAlphabetically", strings =>
-		(strings || []).sort((b, a) => b.localeCompare(a))
-	);
 };
