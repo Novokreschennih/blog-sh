@@ -6,40 +6,43 @@
 		<title>{{ title or metadata.title }}</title>
 		<meta name="description" content="{{ description or metadata.description }}">
 
-		{# --- ДОБАВЛЯЕМ ШРИФТЫ --- #}
+		{# --- ДОБАВЛЯЕМ ШРИФТЫ (Безопасно) --- #}
 		<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" media="print" onload="this.media='all'">
     
-		{# Ссылки на фавиконы и основной CSS-файл (оставляем как есть) #}
+		{# --- СТИЛИ (Оставляем как в оригинале, Eleventy разберется сам) --- #}
+		<style>{% include "css/index.css" %}</style>
+		
+		{# Фавиконы (Оставляем как в оригинале) #}
 		<link rel="icon" href="{{ '/favicon.ico' | url }}" sizes="any">
 		<link rel="icon" href="{{ '/favicon.svg' | url }}" type="image/svg+xml">
-		<link rel="stylesheet" href="{{ '/css/index.css' | url }}">
 	</head>
 	<body>
-		{# --- ДОБАВЛЯЕМ НАШИ ОБЕРТКИ ДЛЯ ФОНА И КОНТЕЙНЕРА --- #}
+		<a href="#skip" class="visually-hidden" id="skip-link">Skip to main content</a>
+
+		{# --- ДОБАВЛЯЕМ НАШИ ОБЕРТКИ ДЛЯ ФОНА И ДИЗАЙНА --- #}
 		<div class="container">
 			<div class="main-box">
 
 				<header>
-					{# Этот код оставляем без изменений #}
 					<p><a href="{{ '/' | url }}">{{ metadata.title }}</a></p>
 					<nav>
 						<h2 class="visually-hidden">Top level navigation</h2>
 						<ol>
 						{%- for entry in collections.all | eleventyNavigation %}
-							<li class="nav-item"><a href="{{ entry.url | url }}">{{ entry.title }}</a></li>
+							<li class="nav-item"><a href="{{ entry.url | url }}" {% if entry.url == page.url %} aria-current="page"{% endif %}>{{ entry.title }}</a></li>
 						{%- endfor %}
 						</ol>
 					</nav>
 				</header>
 
-				<main>
+				<main id="skip">
 					{{ content | safe }}
 				</main>
 
 				<footer></footer>
-
+			
 			</div>
 		</div>
 	</body>
