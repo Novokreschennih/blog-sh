@@ -28,6 +28,6 @@ eleventyNavigation:
 <h2 class="section-title">Остальные Статьи</h2>
 
 {# Готовим список для компонента (все посты, кроме первого) #}
-{% set postslist = allPosts | slice(1) %}
+{% set postslist = allPosts %}
 {# ВЫЗЫВАЕМ РАБОЧИЙ КОМПОНЕНТ С ПРАВИЛЬНЫМ СИНТАКСИСОМ #}
 {% include "postslist.njk" %}
