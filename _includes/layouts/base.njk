@@ -6,20 +6,22 @@
 		<title>{{ title or metadata.title }}</title>
 		<meta name="description" content="{{ description or metadata.description }}">
 
-		{# --- ДОБАВЛЯЕМ ШРИФТЫ --- #}
 		<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" media="print" onload="this.media='all'">
+    
+		<link rel="icon" href="{{ '/favicon.ico' | url }}" sizes="any">
+		<link rel="icon" href="{{ '/favicon.svg' | url }}" type="image/svg+xml">
 
-		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
+		{# --- Используем оригинальный механизм сборки стилей --- #}
 		<style>{% include "css/index.css" %}</style>
 		<style>{% getBundle "css" %}</style>
+
 		<script type="module">{% include "node_modules/@zachleat/heading-anchors/heading-anchors.js" %}</script>
 	</head>
 	<body>
 		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
 
-		{# --- ДОБАВЛЯЕМ НАШИ ОБЕРТКИ --- #}
 		<div class="container">
 			<div class="main-box">
 
@@ -42,15 +44,14 @@
 				</main>
 
 				<footer>
-    <p>
-        <em>Built with <a href="https://www.11ty.dev/">{{ eleventy.generator }}</a></em>
-    </p>
-</footer>
+					<p>
+						<em>Built with <a href="https://www.11ty.dev/">{{ eleventy.generator }}</a></em>
+					</p>
+				</footer>
 			
 			</div>
 		</div>
 
-		<!-- This page `{{ page.url }}` was built on {% currentBuildDate %} -->
 		<script type="module" src="{% getBundleFileUrl "js" %}"></script>
 	</body>
 </html>
