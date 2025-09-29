@@ -5,9 +5,12 @@ eleventyNavigation:
   order: 1
 ---
 
+{# Получаем все посты и переворачиваем, чтобы новые были сверху #}
 {% set postslist = collections.posts | reverse %}
+{# Первый пост в списке - наш "главный" #}
 {% set featuredPost = postslist[0] %}
 
+{# --- БЛОК ДЛЯ ГЛАВНОГО ПОСТА --- #}
 {% if featuredPost %}
 <section class="featured-post">
   <div class="featured-post-content">
@@ -20,9 +23,12 @@ eleventyNavigation:
 </section>
 {% endif %}
 
-<h2 class="section-title">Все Статьи</h2>
+
+{# --- СЕТКА ОСТАЛЬНЫХ ПОСТОВ --- #}
+<h2 class="section-title">Остальные Статьи</h2>
 
 <ol reversed class="postlist" style="list-style: none; padding: 0;">
+{# Перебираем все посты, ПРОПУСКАЯ первый (с помощью фильтра slice) #}
 {%- for post in postslist | slice(1) -%}
   <li class="postlist-item">
     <a href="{{ post.url | url }}" class="postlist-link">
@@ -30,6 +36,7 @@ eleventyNavigation:
       {% if post.data.description %}
         <p class="postlist-excerpt">{{ post.data.description }}</p>
       {% else %}
+        {# Добавляем текст по умолчанию, если у поста нет описания #}
         <p class="postlist-excerpt">Читать далее...</p>
       {% endif %}
     </a>
