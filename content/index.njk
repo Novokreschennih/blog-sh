@@ -1,29 +1,39 @@
----js
-const eleventyNavigation = {
-	key: "Home",
-	order: 1
-};
-
-const numberOfLatestPostsToShow = 3;
 ---
-{% set postsCount = collections.posts | length %}
-{% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
-<h1>Latest {{ latestPostsCount }} Post{% if latestPostsCount != 1 %}s{% endif %}</h1>
+layout: layouts/base.njk
+eleventyNavigation:
+  key: Home
+  order: 1
+---
 
-{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
-{% set postslistCounter = postsCount %}
-{% include "postslist.njk" %}
+{# Получаем список всех постов в правильном порядке (новые сверху) #}
+{% set postslist = collections.posts | reverse %}
+{# Выбираем самый первый (самый новый) пост для фичера #}
+{% set featuredPost = postslist[0] %}
 
-{% set morePosts = postsCount - numberOfLatestPostsToShow %}
-{% if morePosts > 0 %}
-<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">the archive</a>.</p>
+{% if featuredPost %}
+<section class="featured-post">
+  <div class="featured-post-content">
+    <span class="featured-tag">Свежая Статья</span>
+    <h2><a href="{{ featuredPost.url | url }}">{{ featuredPost.data.title }}</a></h2>
+    <p>{{ featuredPost.data.description or "Читать далее..." }}</p>
+    <time datetime="{{ featuredPost.date | htmlDateString }}">{{ featuredPost.date | readableDate }}</time>
+  </div>
+</section>
 {% endif %}
 
-{# List every content page in the project #}
-{#
-<ul>
-	{%- for entry in collections.all %}
-	<li><a href="{{ entry.url }}"><code>{{ entry.url }}</code></a></li>
-	{%- endfor %}
-</ul>
-#}
+<h2 class="section-title">Все Статьи</h2>
+
+<ol reversed class="postlist" style="list-style: none; padding: 0;">
+{# Выводим остальные посты, пропуская первый, который уже в фичере #}
+{%- for post in postslist | slice(1) -%}
+  <li class="postlist-item">
+    <a href="{{ post.url | url }}" class="postlist-link">
+      <h2>{{ post.data.title }}</h2>
+      <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
+      {% if post.data.description %}
+        <p class="postlist-excerpt">{{ post.data.description }}</p>
+      {% endif %}
+    </a>
+  </li>
+{%- endfor -%}
+</ol>
