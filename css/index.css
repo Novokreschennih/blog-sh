@@ -1,298 +1,125 @@
-/* Defaults */
+/* Стандартные импорты из шаблона, чтобы ничего не сломалось */
+@import "./message-box.css";
+@import "./prism-diff.css";
+
+/* --- НАША НОВАЯ ДИЗАЙН-СИСТЕМА --- */
 :root {
-	--font-family: -apple-system, system-ui, sans-serif;
-	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+    --primary: #6366f1;
+    --secondary: #8b5cf6;
+    --accent: #ec4899;
+    --neon: #00f7ff;
+    --dark: #0f172a;
+    --darker: #020617;
+    --light: #f8fafc;
+    --gray: #94a3b8;
+    --card-bg: rgba(15, 23, 42, 0.6);
+    --glass: rgba(10, 14, 27, 0.8);
+    --border: rgba(255, 255, 255, 0.1);
+    --glow-x: 50%;
+    --glow-y: 50%;
 }
 
-/* Theme colors */
-:root {
-	--color-gray-20: #e0e0e0;
-	--color-gray-50: #C0C0C0;
-	--color-gray-90: #333;
-
-	--background-color: #fff;
-
-	--text-color: var(--color-gray-90);
-	--text-color-link: #082840;
-	--text-color-link-active: #5f2b48;
-	--text-color-link-visited: #17050F;
-
-	--syntax-tab-size: 2;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-gray-20: #e0e0e0;
-		--color-gray-50: #C0C0C0;
-		--color-gray-90: #dad8d8;
-
-		/* --text-color is assigned to --color-gray-_ above */
-		--text-color-link: #1493fb;
-		--text-color-link-active: #6969f7;
-		--text-color-link-visited: #a6a6f8;
-
-		--background-color: #15202b;
-	}
-}
-
-
-/* Global stylesheet */
-* {
-	box-sizing: border-box;
-}
-
-@view-transition {
-	navigation: auto;
-}
-
-html,
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-	padding: 0;
-	margin: 0 auto;
-	font-family: var(--font-family);
-	color: var(--text-color);
-	background-color: var(--background-color);
-}
-html {
-	overflow-y: scroll;
-}
-body {
-	max-width: 40em;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--darker);
+    color: var(--light);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
 }
 
-/* https://www.a11yproject.com/posts/how-to-hide-content/ */
-.visually-hidden:not(:focus):not(:active) {
-	clip: rect(0 0 0 0);
-	clip-path: inset(50%);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
+body::before {
+    content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(800px circle at var(--glow-x) var(--glow-y), rgba(99, 102, 241, 0.15), transparent 40%);
+    pointer-events: none; z-index: -1;
 }
 
-/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
-img{
-  max-width: 100%;
-}
-img[width][height] {
-  height: auto;
-}
-img[src$=".svg"] {
-  width: 100%;
-  height: auto;
-  max-width: none;
-}
-video,
-iframe {
-	width: 100%;
-	height: auto;
-}
-iframe {
-	aspect-ratio: 16/9;
+/* --- ИНТЕГРАЦИЯ В СТРУКТУРУ ELEVENTY-BASE-BLOG --- */
+
+/* Убираем ограничение ширины у body, чтобы фон был на весь экран */
+body { max-width: none; }
+
+/* Добавляем наши обертки для контента */
+.container { padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+.main-box {
+    background: var(--glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    border-radius: 30px; padding: 40px;
+    border: 1px solid var(--border); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 }
 
-p:last-child {
-	margin-bottom: 0;
+/* Стилизация стандартных элементов блога под наш дизайн */
+header, main, footer {
+    max-width: 750px;
+    margin: 0 auto;
 }
-p {
-	line-height: 1.5;
-}
-
-li {
-	line-height: 1.5;
-}
-
-a[href] {
-	color: var(--text-color-link);
-}
-a[href]:visited {
-	color: var(--text-color-link-visited);
-}
-a[href]:hover,
-a[href]:active {
-	color: var(--text-color-link-active);
-}
-
-main,
-footer {
-	padding: 1rem;
-}
-main :first-child {
-	margin-top: 0;
-}
-
 header {
-	border-bottom: 1px dashed var(--color-gray-20);
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 20px; margin-bottom: 40px; border-bottom: 1px solid var(--border);
 }
+header p { font-size: 1.8rem; font-weight: 800; }
+header a, .nav a { color: var(--light); text-decoration: none; transition: color 0.3s; }
+header a:hover, .nav a:hover { color: var(--primary); }
+.nav a { color: var(--gray); font-weight: 500; }
+.nav a:hover { color: var(--neon); }
+.nav a[href][aria-current="page"] { color: var(--primary); }
 
-#skip-link {
-	text-decoration: none;
-	background: var(--background-color);
-	color: var(--text-color);
-	padding: 0.5rem 1rem;
-	border: 1px solid var(--color-gray-90);
-	border-radius: 2px;
-}
 
-/* Prevent visually-hidden skip link fom pushing content around when focused */
-#skip-link.visually-hidden:focus {
-	position: absolute;
-	top: 1rem;
-	left: 1rem;
-	/* Ensure it is positioned on top of everything else when it is shown */
-	z-index: 999;
-}
-
-.links-nextprev {
-	display: flex;
-	justify-content: space-between;
-	gap: .5em 1em;
-	list-style: "";
-	border-top: 1px dashed var(--color-gray-20);
-	padding: 1em 0;
-}
-.links-nextprev > * {
-	flex-grow: 1;
-}
-.links-nextprev-next {
-	text-align: right;
-}
-
-table {
-	margin: 1em 0;
-}
-table td,
-table th {
-	padding-right: 1em;
-}
-
-pre,
-code {
-	font-family: var(--font-family-monospace);
-}
-pre:not([class*="language-"]) {
-	margin: .5em 0;
-	line-height: 1.375; /* 22px /16 */
-	-moz-tab-size: var(--syntax-tab-size);
-	-o-tab-size: var(--syntax-tab-size);
-	tab-size: var(--syntax-tab-size);
-	-webkit-hyphens: none;
-	-ms-hyphens: none;
-	hyphens: none;
-	direction: ltr;
-	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
-	overflow-x: auto;
-}
-code {
-	word-break: break-all;
-}
-
-/* Header */
-header {
-	display: flex;
-	gap: 1em;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1em;
-}
-.home-link {
-	flex-grow: 1;
-	font-size: 1em; /* 16px /16 */
-	font-weight: 700;
-}
-.home-link:link:not(:hover) {
-	text-decoration: none;
-}
-
-/* Nav */
-.nav {
-	display: flex;
-	gap: .5em 1em;
-	padding: 0;
-	margin: 0;
-	list-style: none;
-}
-.nav-item {
-	display: inline-block;
-}
-.nav-item a[href]:not(:hover) {
-	text-decoration: none;
-}
-.nav a[href][aria-current="page"] {
-	text-decoration: underline;
-}
-
-/* Posts list */
+/* --- СЕТКА ПОСТОВ (ГЛАВНОЕ ИЗМЕНЕНИЕ) --- */
 .postlist {
-	counter-reset: start-from var(--postlist-index);
-	list-style: none;
-	padding: 0;
-	padding-left: 1.5rem;
+    list-style: none; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
 }
-.postlist-item {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	counter-increment: start-from -1;
-	margin-bottom: 1em;
-}
-.postlist-item:before {
-	display: inline-block;
-	pointer-events: none;
-	content: "" counter(start-from, decimal-leading-zero) ". ";
-	line-height: 100%;
-	text-align: right;
-	margin-left: -1.5rem;
-}
-.postlist-date,
-.postlist-item:before {
-	font-size: 0.8125em; /* 13px /16 */
-	color: var(--color-gray-90);
-}
-.postlist-date {
-	word-spacing: -0.5px;
-}
+/* Убираем стандартные отступы и нумерацию */
+.postlist-item { margin-bottom: 0; }
+.postlist-item:before { content: none; }
 .postlist-link {
-	font-size: 1.1875em; /* 19px /16 */
-	font-weight: 700;
-	flex-basis: calc(100% - 1.5rem);
-	padding-left: .25em;
-	padding-right: .5em;
-	text-underline-position: from-font;
-	text-underline-offset: 0;
-	text-decoration-thickness: 1px;
+    display: flex; flex-direction: column; height: 100%;
+    padding: 30px; background: var(--card-bg); border-radius: 15px;
+    border: 1px solid var(--border); transition: all 0.3s ease;
+    flex-basis: auto; /* Сброс стандартного значения */
 }
-.postlist-item-active .postlist-link {
-	font-weight: bold;
+.postlist-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    border-color: var(--primary);
 }
-
-/* Tags */
-.post-tag {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	text-transform: capitalize;
-	font-style: italic;
+.postlist-link h2 {
+    font-size: 1.6rem; margin-bottom: 10px; color: var(--primary);
 }
-.postlist-item > .post-tag {
-	align-self: center;
+.postlist-date, time {
+    color: var(--gray); margin-bottom: 15px; font-size: 0.9rem;
+}
+.postlist-item p {
+    color: var(--light); line-height: 1.7; flex-grow: 1;
 }
 
-/* Tags list */
-.post-metadata {
-	display: inline-flex;
-	flex-wrap: wrap;
-	gap: .5em;
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-.post-metadata time {
-	margin-right: 1em;
+/* Стили для отдельного поста */
+article h1, article h2, article h3 { line-height: 1.3; margin-bottom: 20px; margin-top: 40px; color: var(--primary); }
+article h1 { font-size: 2.8rem; }
+article h2 { font-size: 2.2rem; }
+article p { margin-bottom: 20px; color: var(--gray); line-height: 1.8; }
+article a { color: var(--neon); text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s; }
+article a:hover { border-bottom-color: var(--neon); }
+article pre { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px; overflow-x: auto; margin-bottom: 20px; border: 1px solid var(--border); }
+article code { font-family: 'Courier New', Courier, monospace; color: var(--accent); }
+article blockquote { border-left: 3px solid var(--primary); padding-left: 20px; margin: 30px 0; font-style: italic; color: var(--light); }
+
+footer { text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--gray); }
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .main-box { padding: 30px 20px; }
+    header { flex-direction: column; gap: 10px; }
+    article h1 { font-size: 2.2rem; }
+    article h2 { font-size: 1.8rem; }
 }
 
+/* Скрытие стандартных элементов */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px;
+	overflow: hidden; position: absolute; white-space: nowrap; width: 1px;
+}
