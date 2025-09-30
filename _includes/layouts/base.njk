@@ -25,9 +25,18 @@
 		<div class="container">
 			<div class="main-box">
 
-				<header class="blog-header-simple">
-			    <a href="{{ metadata.author.url }}" class="back-to-site" target="_blank">← Назад на главный сайт</a>
-			    <h1 class="blog-title-main"><a href="{{ '/' | url }}">{{ metadata.title }}</a></h1>
+				<header>
+					<a href="/" class="home-link">{{ metadata.title }}</a>
+				
+					{#- Этот код автоматически создает меню из ваших страниц -#}
+					<nav>
+						<h2 class="visually-hidden">Top level navigation menu</h2>
+						<ul class="nav">
+						{%- for entry in collections.all | eleventyNavigation %}
+							<li class="nav-item"><a href="{{ entry.url }}"{% if entry.url == page.url %} aria-current="page"{% endif %}>{{ entry.title }}</a></li>
+						{%- endfor %}
+						</ul>
+					</nav>
 				</header>
 
 				<main id="main">
