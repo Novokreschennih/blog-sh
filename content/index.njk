@@ -27,8 +27,21 @@ eleventyNavigation:
 {# --- СЕТКА ОСТАЛЬНЫХ ПОСТОВ --- #}
 <h2 class="section-title">Остальные Статьи</h2>
 
-{# 3. Готовим список для сетки (все посты, КРОМЕ первого) #}
-{% set postslist = allPosts %}
-
-{# 4. Вызываем рабочий компонент с нашим новым, урезанным списком #}
-{% include "postslist.njk" %}
+<ol reversed class="postlist" style="list-style: none; padding: 0;">
+{# Перебираем ВЕСЬ список постов... #}
+{%- for post in allPosts -%}
+  {# ...но выводим карточку, ТОЛЬКО ЕСЛИ это НЕ ПЕРВЫЙ элемент #}
+  {%- if not loop.first -%}
+    <li class="postlist-item">
+      <a href="{{ post.url | url }}" class="postlist-link">
+        <h2>{{ post.data.title }}</h2>
+        {% if post.data.description %}
+          <p class="postlist-excerpt">{{ post.data.description }}</p>
+        {% else %}
+          <p class="postlist-excerpt">Читать далее…</p>
+        {% endif %}
+      </a>
+    </li>
+  {%- endif -%}
+{%- endfor -%}
+</ol>
