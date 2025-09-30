@@ -1,0 +1,89 @@
+---
+title: Калькулятор Дохода
+layout: layouts/base.njk
+eleventyNavigation:
+  key: Calculator
+  order: 2
+---
+
+{# Подключаем стили и скрипты только для этой страницы #}
+<link rel="stylesheet" href="{{ '/css/simulator.css' | url }}">
+
+<section id="simulator" class="simulator">
+    <div class="simulator-header">
+        <h2>Симулятор Вашего Дохода в SetHubble</h2>
+        <p>Постройте свою идеальную партнерскую программу и сравните ее с классической моделью. Узнайте, как глубина сети влияет на ваш чистый доход за год.</p>
+    </div>
+    
+    <div class="general-controls">
+        <div class="control-group">
+            <label for="price">Цена Продукта <span class="value-display" id="priceValue">$100</span></label>
+            <input type="range" id="price" class="slider" min="10" max="1000" value="100" step="10">
+        </div>
+        <div class="control-group">
+            <label for="initialPartners">Личных партнеров в месяц <span class="value-display" id="initialPartnersValue">10</span></label>
+            <input type="range" id="initialPartners" class="slider" min="1" max="50" value="10" step="1">
+        </div>
+        <div class="control-group">
+            <label for="partnerDuplication">Продаж от 1 партнера в мес. <span class="value-display" id="partnerDuplicationValue">2</span></label>
+            <input type="range" id="partnerDuplication" class="slider" min="1" max="10" value="2" step="1">
+        </div>
+    </div>
+
+    <div class="results-grid">
+        <div class="result-column classic">
+            <h3>Классика</h3>
+            <p class="subtitle" id="classicSubtitle">2 уровня: 50% + 5%</p>
+            <div class="simulator-controls">
+                <div class="control-group">
+                    <label>Количество уровней <span class="value-display" id="classicLevelsValue">2</span></label>
+                    <input type="range" id="classicLevels" class="slider" min="0" max="2" value="2">
+                </div>
+                <div class="control-row" id="classicL1Row">
+                    <label for="classicL1">Уровень 1, %</label>
+                    <input type="number" id="classicL1" class="number-input" value="50" min="0" max="100" step="1">
+                </div>
+                <div class="control-row" id="classicL2Row">
+                    <label for="classicL2">Уровень 2, %</label>
+                    <input type="number" id="classicL2" class="number-input" value="5" min="0" max="100" step="1">
+                </div>
+            </div>
+            <div class="warning"></div>
+            <div class="result-item"><div class="label">Партнеров в сети (за год)</div><div class="value" id="classicTotalPartners">0</div></div>
+            <div class="result-item income-item" id="classicAuthorIncome">$0</div>
+        </div>
+        <div class="result-column sethubble">
+            <h3>SetHubble</h3>
+            <p class="subtitle" id="sethubbleSubtitle">5 уровней: 50% + 4x5%</p>
+            <div class="simulator-controls">
+                <div class="control-group">
+                    <label>Количество уровней <span class="value-display" id="sethubbleLevelsValue">5</span></label>
+                    <input type="range" id="sethubbleLevels" class="slider" min="0" max="10" value="5">
+                </div>
+                <div class="control-row" id="sethubbleL1Row">
+                    <label for="sethubbleL1">Уровень 1, %</label>
+                    <input type="number" id="sethubbleL1" class="number-input" value="50" min="0" max="80" step="1">
+                </div>
+                <div class="control-row" id="sethubbleL2plusRow">
+                    <label for="sethubbleL2plus" id="sethubbleL2plusLabel">Уровни 2-10, %</label>
+                    <input type="number" id="sethubbleL2plus" class="number-input" value="5" min="0" max="80" step="1">
+                </div>
+            </div>
+            <div class="warning" id="sethubbleWarning"></div>
+            <div class="result-item"><div class="label">Партнеров в сети (за год)</div><div class="value" id="sethubbleTotalPartners">0</div></div>
+            <div class="result-item income-item" id="sethubbleAuthorIncome">$0</div>
+        </div>
+    </div>
+    
+    <div class="conclusion-box">
+        <p id="conclusionText">Передвиньте ползунки, чтобы увидеть магию экспоненциального роста.</p>
+    </div>
+
+    <div class="ecosystem-bonus">
+        <p>✨ А теперь представьте, какой дополнительный доход вы получите, когда часть этих партнеров купят платные тарифы или начнут продавать <b>собственные продукты</b>! Вы сможете получать проценты с их продаж.</p>
+    </div>
+
+    <div class="chart-container"><canvas id="salesChart"></canvas></div>
+</section>
+
+<script src="{{ '/js/simulator.js' | url }}" defer></script>
