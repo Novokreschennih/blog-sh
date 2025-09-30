@@ -29,5 +29,5 @@ eleventyNavigation:
 
 {# Готовим список для компонента (все посты, кроме первого) #}
 {% set postslist = allPosts %}
-{# 4. Вызываем компонент и ЯВНО передаем ему наш отфильтрованный список #}
-{% include "postslist.njk" with { postslist: postsForGrid } %}
+{# ВЫЗЫВАЕМ РАБОЧИЙ КОМПОНЕНТ С ПРАВИЛЬНЫМ СИНТАКСИСОМ #}
+{% include "postslist.njk" %}
