@@ -24,6 +24,13 @@ layout: layouts/base.njk
 	{{ content | safe }}
 </article>
 
+{# --- НОВЫЙ CTA-БЛОК --- #}
+<section class="cta-block">
+  <h2>Увидели потенциал?</h2>
+  <p>Не просто верьте нам на слово. Рассчитайте свой собственный годовой доход на нашем интерактивном симуляторе.</p>
+  <a href="{{ '/calculator/' | url }}" class="cta-button">Открыть Калькулятор Дохода</a>
+</section>
+
 {# Навигация "Следующий/Предыдущий пост" #}
 {%- set previousPost = collections.posts | getPreviousCollectionItem %}
 {%- set nextPost = collections.posts | getNextCollectionItem %}
