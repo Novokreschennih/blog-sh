@@ -129,3 +129,60 @@ header, main, footer {
 
 footer { text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--gray); }
 .visually-hidden { display: none; }
+
+/* --- СТИЛИ ДЛЯ СИСТЕМЫ ТЕГОВ --- */
+
+/* Блок с метаданными под заголовком поста */
+.post-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+.post-tag {
+    background: var(--card-bg);
+    color: var(--primary);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.post-tag:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Страница со всеми тегами */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: center;
+    padding: 2em 0;
+}
+.tag-cloud-item {
+    display: block;
+    background: var(--card-bg);
+    color: var(--gray);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.tag-cloud-item:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px);
+}
