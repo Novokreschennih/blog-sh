@@ -7,6 +7,19 @@ layout: layouts/base.njk
 
 <article class="post-content">
 	<h1>{{ title }}</h1>
+	
+	{# --- НОВЫЙ БЛОК ДЛЯ ДАТЫ И ТЕГОВ --- #}
+	<div class="post-metadata">
+		<time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
+		{%- if tags %}
+		<div class="tags-list">
+			{%- for tag in tags | filterTagList %}
+			{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+			<a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>
+			{%- endfor %}
+		</div>
+		{%- endif %}
+	</div>
 
 	{{ content | safe }}
 </article>
