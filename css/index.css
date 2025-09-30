@@ -122,6 +122,22 @@ nav {
 .nav a:hover::after {
     transform: scaleX(1);
 }
+.back-to-site {
+    background: var(--card-bg);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: var(--neon);
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+}
+.back-to-site:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
 
 /* Адаптивность шапки */
 @media (max-width: 768px) {
