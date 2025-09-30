@@ -28,7 +28,7 @@ eleventyNavigation:
 <h2 class="section-title">Остальные Статьи</h2>
 
 {# 3. Готовим список для сетки (все посты, КРОМЕ первого) #}
-{% set postslist = allPosts | slice(1) %}
+{% set postslist = allPosts %}
 
 {# 4. Вызываем рабочий компонент с нашим новым, урезанным списком #}
 {% include "postslist.njk" %}
