@@ -346,34 +346,60 @@ article blockquote { border-left: 3px solid var(--primary); padding-left: 20px; 
     box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
 }
 /* --- ФИНАЛЬНЫЕ СТИЛИ ДЛЯ ФУТЕРА --- */
-.site-footer {
+footer {
     text-align: center;
     margin-top: 80px;
-    padding-top: 30px;
+    padding-top: 40px;
     border-top: 1px solid var(--border);
-    color: var(--gray);
 }
-.footer-links {
-    margin-bottom: 20px;
+
+.footer-cta {
+    margin-bottom: 40px;
 }
-.footer-links a {
+
+.footer-cta h2 {
+    font-size: 2rem;
+    color: var(--light);
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* Мы переиспользуем стиль .cta-button, который уже может быть где-то определен,
+   но здесь мы его явно задаем для футера */
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border: none;
+}
+.cta-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+}
+
+.footer-meta {
+    font-size: 0.9rem;
     color: var(--gray);
-    font-weight: 500;
+    opacity: 0.8;
+}
+
+.footer-meta a {
+    color: var(--gray);
     text-decoration: none;
     transition: color 0.3s;
-    background: var(--card-bg);
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
 }
-.footer-links a:hover {
+
+.footer-meta a:hover {
     color: var(--primary);
-    border-color: var(--primary);
 }
-.footer-credits {
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-.footer-credits a {
-    color: var(--gray);
+
+.footer-meta p {
+    margin-top: 15px;
 }
