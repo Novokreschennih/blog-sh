@@ -45,11 +45,93 @@ body::before {
     border: 1px solid var(--border); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 }
 
-/* Шапка */
+/* --- СТИЛИ ДЛЯ НОВОЙ ШАПКИ --- */
+
 header, main, footer {
     max-width: 900px;
     margin: 0 auto;
     padding: 0;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--border);
+}
+.home-link {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--light);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.home-link:hover {
+    color: var(--primary);
+}
+nav {
+    list-style: none;
+    padding: 0;
+}
+.nav {
+    display: flex;
+    gap: 2em;
+    list-style: none;
+    padding: 0;
+}
+.nav a {
+    position: relative;
+    color: var(--gray);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+    padding-bottom: 5px;
+}
+.nav a:hover {
+    color: var(--light);
+}
+/* Стили для активной ссылки */
+.nav a[aria-current="page"] {
+    color: var(--primary);
+}
+/* Анимированное подчеркивание для активной ссылки */
+.nav a[aria-current="page"]::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
+}
+.nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+.nav a:hover::after {
+    transform: scaleX(1);
+}
+
+/* Адаптивность шапки */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .nav {
+        gap: 1.5em;
+    }
 }
 .blog-header-simple {
     display: flex;
