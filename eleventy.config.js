@@ -74,6 +74,12 @@ export default async function(eleventyConfig) {
 	// Image optimization
 	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
 		formats: ["avif", "webp", "auto"],
+		// --- ГЛАВНЫЙ ФИКС ---
+		// Куда складывать готовые картинки
+		outputDir: "./_site/img/",
+		// По какому URL они будут доступны на сайте
+		urlPath: "/img/",
+		// ---------------------
 		failOnError: false,
 		htmlOptions: { imgAttributes: { loading: "lazy", decoding: "async" } },
 		sharpOptions: { animated: true },
