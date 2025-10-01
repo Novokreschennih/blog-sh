@@ -1,0 +1,19 @@
+---
+title: Новости Сервиса
+layout: layouts/base.njk
+eleventyNavigation:
+  key: Новости
+  order: 2
+---
+<h1>{{ title }}</h1>
+<ol reversed class="news-list" style="list-style: none; padding: 0;">
+{%- for item in collections.news | reverse -%}
+<li class="news-item">
+<time class="news-date" datetime="{{ item.date | htmlDateString }}">{{ item.date | readableDate }}</time>
+<div class="news-content">
+<h2 class="news-title">{{ item.data.title }}</h2>
+{{ item.templateContent | safe }}
+</div>
+</li>
+{%- endfor -%}
+</ol>
