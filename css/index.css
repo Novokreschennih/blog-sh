@@ -401,3 +401,35 @@ footer {
 .footer-meta p {
     margin-top: 15px;
 }
+/* --- СТИЛИ ДЛЯ НОВОСТНОЙ ЛЕНТЫ --- */
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.news-item {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+}
+.news-date {
+    font-weight: 600;
+    color: var(--gray);
+}
+.news-title {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+.news-content p {
+    margin: 0;
+    color: var(--light);
+}
+@media (max-width: 600px) {
+    .news-item {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
