@@ -464,3 +464,17 @@ footer {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Добавляем тень */
     border: 1px solid var(--border);
 }
+/* --- СТИЛИ ДЛЯ ОПТИМИЗИРОВАННЫХ ИЗОБРАЖЕНИЙ В СТАТЬЯХ --- */
+main picture {
+    display: block;
+    margin: 30px auto;
+}
+
+main picture img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+}
