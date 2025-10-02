@@ -58,18 +58,18 @@ export default async function(eleventyConfig) {
 	});
 
 	// --- ГЛАВНЫЙ ФИКС: ПРАВИЛЬНАЯ НАСТРОЙКА IMAGE PLUGIN ---
+		/* --- ВРЕМЕННО ОТКЛЮЧАЕМ ПЛАГИН ОПТИМИЗАЦИИ, ЧТОБЫ ЗАРАБОТАЛИ ПРОСТЫЕ IMG ---
 	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
 		formats: ["avif", "webp", "auto"],
 		
-		// Куда складывать готовые, оптимизированные картинки
 		outputDir: "./_site/img/",
-		// По какому URL они будут доступны на сайте
 		urlPath: "/img/",
 
 		failOnError: false,
 		htmlOptions: { imgAttributes: { loading: "lazy", decoding: "async" } },
 		sharpOptions: { animated: true },
 	});
+	*/
 	// -----------------------------------------------------------
 
 	// Filters
