@@ -19,13 +19,19 @@ export default async function(eleventyConfig) {
 	});
 
 	// Копирование файлов
-	eleventyConfig.addPassthroughCopy({ "./public/": "/" });
-	// --- НОВЫЙ ФИКС: КОПИРОВАНИЕ ИЗОБРАЖЕНИЙ ИЗ ПАПОК НОВОСТЕЙ ---
-	eleventyConfig.addPassthroughCopy("./content/news/**/!(index).{jpg,png,gif,svg}") 
-		// -------------------------------------------------------------
-	eleventyConfig.addPassthroughCopy("./css/");
-	eleventyConfig.addPassthroughCopy("./js/");
-	eleventyConfig.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl");
+		// Copy the contents of the `public` folder to the output folder
+	eleventyConfig
+		.addPassthroughCopy({
+			"./public/": "/"
+		})
+		// --- АГРЕССИВНОЕ КОПИРОВАНИЕ КАРТИНОК ИЗ ВСЕХ ПОСТОВ ---
+		.addPassthroughCopy("content/**/*.png")
+		.addPassthroughCopy("content/**/*.jpg")
+		.addPassthroughCopy("content/**/*.gif")
+		// -----------------------------------------------------
+		.addPassthroughCopy("./css/")
+		.addPassthroughCopy("./js/")
+		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl");
 
 	// Watch targets
 	eleventyConfig.addWatchTarget("css/**/*.css");
