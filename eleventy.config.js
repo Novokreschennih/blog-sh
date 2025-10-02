@@ -20,6 +20,9 @@ export default async function(eleventyConfig) {
 
 	// Копирование файлов
 	eleventyConfig.addPassthroughCopy({ "./public/": "/" });
+	// --- НОВЫЙ ФИКС: КОПИРОВАНИЕ ИЗОБРАЖЕНИЙ ИЗ ПАПОК НОВОСТЕЙ ---
+	eleventyConfig.addPassthroughCopy("./content/news/**/!(index).{jpg,png,gif,svg}") 
+		// -------------------------------------------------------------
 	eleventyConfig.addPassthroughCopy("./css/");
 	eleventyConfig.addPassthroughCopy("./js/");
 	eleventyConfig.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl");
