@@ -465,16 +465,20 @@ footer {
     border: 1px solid var(--border);
 }
 /* --- СТИЛИ ДЛЯ ОПТИМИЗИРОВАННЫХ ИЗОБРАЖЕНИЙ В СТАТЬЯХ --- */
+/* --- ФИНАЛЬНЫЕ СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ В СТАТЬЯХ --- */
+/* Применяем стили ко всем <picture> внутри основного контента <main> */
 main picture {
-    display: block;
-    margin: 30px auto;
+    max-width: 100%; /* << ГЛАВНЫЙ ФИКС: Ограничиваем ширину контейнера картинки */
+    display: block; 
+    margin: 30px auto; 
 }
 
+/* Стили для самого тега <img> внутри <picture> */
 main picture img {
-    max-width: 100%;
+    width: 100%; /* Растягиваем картинку на всю ширину контейнера <picture> */
     height: auto;
     display: block;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 15px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); 
     border: 1px solid var(--border);
 }
