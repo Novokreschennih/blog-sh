@@ -450,3 +450,17 @@ footer {
         margin-bottom: 5px; /* Добавляем отступ под датой на мобильных */
     }
 }
+/* --- СТИЛИ ДЛЯ ОПТИМИЗИРОВАННЫХ ИЗОБРАЖЕНИЙ В СТАТЬЯХ --- */
+.post-content picture {
+    display: block; /* Убирает лишние отступы */
+    margin: 30px auto; /* Центрирует картинку */
+}
+
+.post-content picture img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px; /* Скругляем углы */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Добавляем тень */
+    border: 1px solid var(--border);
+}
