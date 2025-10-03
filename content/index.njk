@@ -6,8 +6,8 @@ eleventyNavigation:
 ---
 
 {# --- БЛОК 1: ГЛАВНАЯ СТАТЬЯ (Featured Post) --- #}
-{% set postslist = collections.posts | reverse %}
-{% set featuredPost = postslist[0] %}
+{% set allPosts = collections.posts | reverse %}
+{% set featuredPost = allPosts[0] %}
 {% if featuredPost %}
 <section class="featured-post">
   <div class="featured-post-content">
@@ -21,7 +21,7 @@ eleventyNavigation:
 {% endif %}
 
 
-{# --- БЛОК 2: ПОСЛЕДНИЕ НОВОСТИ (НОВЫЙ БЛОК) --- #}
+{# --- БЛОК 2: ПОСЛЕДНИЕ НОВОСТИ (ВОССТАНОВЛЕН) --- #}
 {% set newslist = collections.news | reverse %}
 {% if newslist.length %}
 <section class="latest-news">
@@ -29,7 +29,7 @@ eleventyNavigation:
     <h2 class="section-title-small">Последние Новости</h2>
     <a href="/news/" class="view-all-link">Все новости →</a>
   </div>
-  <ol class="news-snapshot-list">
+  <ol class="news-snapshot-list" style="list-style: none; padding: 0;">
   {%- for item in newslist | slice(0, 3) -%} {# Показываем только 3 последние новости #}
     <li class="news-snapshot-item">
       <time datetime="{{ item.date | htmlDateString }}">{{ item.date | readableDate }}</time>
@@ -41,7 +41,24 @@ eleventyNavigation:
 {% endif %}
 
 
-{# --- БЛОК 3: ОСТАЛЬНЫЕ СТАТЬИ (Сетка) --- #}
+{# --- БЛОК 3: ОСТАЛЬНЫЕ СТАТЬИ (С ПРАВИЛЬНЫМ ЦИКЛОМ) --- #}
 <h2 class="section-title">Глубокое Погружение</h2>
-{% set postslistForGrid = postslist | slice(1) %}
-{% include "postslist.njk" with { postslist: postslistForGrid } %}
+
+<ol reversed class="postlist" style="list-style: none; padding: 0;">
+{# Перебираем ВЕСЬ список постов... #}
+{%- for post in allPosts -%}
+  {# ...но выводим карточку, ТОЛЬКО ЕСЛИ это НЕ ПЕРВЫЙ элемент #}
+  {%- if not loop.first -%}
+    <li class="postlist-item">
+      <a href="{{ post.url | url }}" class="postlist-link">
+        <h2>{{ post.data.title }}</h2>
+        {% if post.data.description %}
+          <p class="postlist-excerpt">{{ post.data.description }}</p>
+        {% else %}
+          <p class="postlist-excerpt">Читать далее…</p>
+        {% endif %}
+      </a>
+    </li>
+  {%- endif -%}
+{%- endfor -%}
+</ol>
