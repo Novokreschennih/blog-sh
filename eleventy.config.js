@@ -8,18 +8,25 @@ import pluginFilters from "./_config/filters.js";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
-	// --- КОЛЛЕКЦИИ ---
-	eleventyConfig.addCollection("posts", collectionApi => collectionApi.getFilteredByGlob("./content/blog/**/*.md"));
-	eleventyConfig.addCollection("news", collectionApi => collectionApi.getFilteredByGlob("./content/news/**/*.md"));
+	// --- СОЗДАНИЕ "ЧИСТЫХ" КОЛЛЕКЦИЙ (ГЛАВНЫЙ ФИКС) ---
+	// Собираем все .md файлы из папки blog
+	eleventyConfig.addCollection("posts", function(collectionApi) {
+		return collectionApi.getFilteredByGlob("./content/blog/**/*.md");
+	});
+	// Собираем все .md файлы из папки news
+	eleventyConfig.addCollection("news", function(collectionApi) {
+		return collectionApi.getFilteredByGlob("./content/news/**/*.md");
+	});
+	// ---------------------------------------------------
 
-	// --- КОПИРОВАНИЕ ФАЙЛОВ ---
+	// --- КОПИРОВАНИЕ СТАТИЧНЫХ ФАЙЛОВ ---
 	eleventyConfig.addPassthroughCopy({ "./public/": "/" });
 	eleventyConfig.addPassthroughCopy("./css/");
 	eleventyConfig.addPassthroughCopy("./js/");
 	eleventyConfig.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl");
 	eleventyConfig.addPassthroughCopy("content/**/*.{jpg,jpeg,png,gif,svg,webp}");
 
-	// --- ШОРТКОД ДЛЯ КАРТИНОК С ФУНКЦИЕЙ ЛАЙТБОКСА (ГЛАВНЫЙ ФИКС) ---
+	// --- ШОРТКОД ДЛЯ КАРТИНОК ---
 	eleventyConfig.addNunjucksAsyncShortcode("image", async function(src, alt, sizes = "100vw") {
 		if (!src) { return; }
 		let filepath = `${this.page.inputPath.substring(0, this.page.inputPath.lastIndexOf('/'))}/${src}`;
@@ -31,24 +38,10 @@ export default async function(eleventyConfig) {
 			urlPath: "/img/",
 		});
 
-		let imageAttributes = {
-			alt,
-			sizes,
-			loading: "lazy",
-			decoding: "async",
-		};
-		
-		// Генерируем HTML для тега <picture>
-		const pictureHTML = Image.generateHTML(metadata, imageAttributes);
-
-		// Получаем URL самой большой картинки для ссылки лайтбокса
-		const largestImage = metadata.jpeg[metadata.jpeg.length - 1];
-		
-		// Оборачиваем <picture> в ссылку <a> с классом для JS
-		return `<a href="${largestImage.url}" class="lightbox-trigger">${pictureHTML}</a>`;
+		let imageAttributes = { alt, sizes, loading: "lazy", decoding: "async" };
+		return Image.generateHTML(metadata, imageAttributes);
 	});
-	// -----------------------------------------------------------------
-
+	
 	// --- ОСТАЛЬНАЯ КОНФИГУРАЦИЯ (ОРИГИНАЛЬНАЯ) ---
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if (data.draft) data.title = `${data.title} (draft)`;
@@ -56,24 +49,20 @@ export default async function(eleventyConfig) {
 	});
 
 	eleventyConfig.addWatchTarget("css/**/*.css");
-
-	eleventyConfig.addBundle("css", { toFileDirectory: "dist", bundleHtmlContentFromSelector: "style" });
-	eleventyConfig.addBundle("js", { toFileDirectory: "dist", bundleHtmlContentFromSelector: "script" });
-
 	eleventyConfig.addPlugin(pluginSyntaxHighlight, { preAttributes: { tabindex: 0 } });
 	eleventyConfig.addPlugin(pluginNavigation);
 	eleventyConfig.addPlugin(HtmlBasePlugin);
 	eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
 
 	eleventyConfig.addPlugin(feedPlugin, {
-		type: "atom", outputPath: "/feed/feed.xml", stylesheet: "pretty-atom-feed.xsl",
+		type: "atom", outputPath: "/feed/feed.xml",
 		collection: { name: "posts", limit: 10, },
 		metadata: {
 			language: "ru", title: "Блог SetHubble", subtitle: "Новости, обновления и инсайты.",
 			base: "https://blog.sethubble.ru/", author: { name: "SetHubble" }
 		}
 	});
-
+	
 	eleventyConfig.addPlugin(pluginFilters);
 	eleventyConfig.addPlugin(IdAttributePlugin);
 
@@ -81,11 +70,13 @@ export default async function(eleventyConfig) {
 };
 
 export const config = {
-	templateFormats: ["md", "njk", "html", "liquid", "11ty.js"],
+	templateFormats: ["md", "njk", "html", "liquid"],
 	markdownTemplateEngine: "njk",
 	htmlTemplateEngine: "njk",
 	dir: {
-		input: "content", includes: "../_includes",
-		data: "../_data", output: "_site"
+		input: "content",
+		includes: "../_includes",
+		data: "../_data",
+		output: "_site"
 	},
 };
