@@ -59,6 +59,8 @@
 			
 			</div>
 		</div>
+		{# --- ГЛАВНЫЙ ФИКС: ВКЛЮЧАЕМ НАШ СКРИПТ В СБОРКУ БАНДЛА --- #}
+		<script>{% include "js/main.js" %}</script>
 
 		<script type="module" src="{% getBundleFileUrl "js" %}"></script>
 		<!-- Yandex.Metrika counter -->
