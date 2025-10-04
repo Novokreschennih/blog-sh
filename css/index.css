@@ -1,9 +1,7 @@
-/* Стандартные импорты из шаблона, чтобы ничего не сломалось */
-
-/* --- НАША НОВАЯ ДИЗАЙН-СИСТЕМА --- */
+/* --- НАСТРОЙКИ ТЕМЫ --- */
 :root {
-    --primary: #6366f1;
-    --secondary: #8b5cf6;
+    --primary: #6366f1; /* Основной акцентный цвет */
+    --neon: #00f7ff;   /* Цвет для ссылок и свечения */
     --accent: #ec4899;
     --neon: #00f7ff;
     --dark: #0f172a;
@@ -14,6 +12,7 @@
     --glass: rgba(10, 14, 27, 0.8);
     --border: rgba(255, 255, 255, 0.1);
 }
+
 
 /* Глобальные стили и фон */
 * { box-sizing: border-box; }
@@ -625,4 +624,23 @@ main picture img {
         width: auto;
         font-size: 0.8rem;
     }
+}
+/* --- СТИЛИ ДЛЯ АНИМАЦИИ ПОЯВЛЕНИЯ --- */
+.postlist-item,
+.featured-post,
+.latest-news,
+.post-content,
+.links-nextprev {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.postlist-item.is-visible,
+.featured-post.is-visible,
+.latest-news.is-visible,
+.post-content.is-visible,
+.links-nextprev.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }

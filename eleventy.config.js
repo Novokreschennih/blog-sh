@@ -16,6 +16,7 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({ "./public/": "/" });
 	eleventyConfig.addPassthroughCopy("./css/");
 	eleventyConfig.addPassthroughCopy("./js/");
+	eleventyConfig.addPassthroughCopy({ "landing-src/": "/" });
 	eleventyConfig.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl");
 	eleventyConfig.addPassthroughCopy("content/**/*.{jpg,jpeg,png,gif,svg,webp}");
 
