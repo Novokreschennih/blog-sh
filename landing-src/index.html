@@ -365,6 +365,13 @@
         <div class="main-box">
             <header class="header">
                 <canvas id="hero-canvas"></canvas>
+                <!-- ================== НОВОЕ МЕНЮ ================== -->
+                <nav class="main-nav animate-on-scroll">
+                    <a href="#simulator" class="nav-link">Симулятор</a>
+                    <a href="/blog/" class="nav-link">Блог</a>
+                    <a href="#faq" class="nav-link">F.A.Q.</a>
+                </nav>
+                <!-- =============================================== -->
                 <h1 class="animate-on-scroll">SetHubble: Конструктор Вирусных Партнёрских Программ</h1>
                 <p class="subtitle animate-on-scroll" data-delay="100">Перестаньте платить за рекламу. Создайте армию партнеров, которая будет делать это за вас.</p>
                 <a href="#simulator" class="cta-button animate-on-scroll" data-delay="200">Смоделировать свой доход →</a>
@@ -665,7 +672,7 @@
             <p>Этот сайт является ресурсом независимого партнера и не является официальным сайтом компании SetHubble.</p>
             <p><a href="https://sethubble.com/ru/p_qdr" target="_blank">Перейти на страницу регистрации SetHubble</a></p>
             <p>
-                <a href="https://sethubble.ru/blog/" target="_blank">Наш Блог</a>
+                <a href="/blog/">Наш Блог</a>
             </p>
         </footer>
     </div>
@@ -673,11 +680,7 @@
     <!-- Подключаем файл со скриптами -->
     <script src="./script.js" defer></script>
     <!-- Скрипт-перехватчик для Netlify Identity -->
-    <script>
-      if (window.location.hash.includes('invite_token') || window.location.hash.includes('recovery_token')) {
-        window.location.href = "/admin/" + window.location.hash;
-      }
-    </script>
+   
       <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
