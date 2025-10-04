@@ -2,12 +2,14 @@ import { DateTime } from "luxon";
 
 export default function(eleventyConfig) {
 	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
-		// Устойчивый фильтр для дат
+		// --- ФИНАЛЬНЫЙ ФИКС ДЛЯ РУССКОЙ ДАТЫ ---
 		const dt = DateTime.fromJSDate(dateObj, { zone: zone || "utc" });
 		if (!dt.isValid) {
-			return "Invalid Date";
+			return "Invalid Date"; // Оставляем проверку на всякий случай
 		}
-		return dt.toFormat(format || "dd LLLL yyyy");
+		// 1. Устанавливаем русский язык
+		// 2. Используем полный формат даты (напр. "1 октября 2025 г.")
+		return dt.setLocale('ru').toLocaleString(DateTime.DATE_FULL);
 	});
 
 	eleventyConfig.addFilter("htmlDateString", (dateObj) => {

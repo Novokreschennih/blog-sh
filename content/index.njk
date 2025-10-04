@@ -1,20 +1,38 @@
 ---
 layout: layouts/base.njk
 eleventyNavigation:
-  key: Главная
+  key: Home
   order: 1
 ---
 
-{# 1. Получаем все посты и переворачиваем (новые сверху) #}
-{% set allPosts = collections.posts | reverse %}
-{# 2. Берем самый первый пост для "главного" блока #}
-{% set featuredPost = allPosts[0] %}
+{# --- БЛОК 1: ПОСЛЕДНИЕ НОВОСТИ (ТЕПЕРЬ НАВЕРХУ) --- #}
+{% set newslist = collections.news | reverse %}
+{% if newslist.length %}
+<section class="latest-news">
+  <div class="section-header">
+    <h2 class="section-title-small">Последние Новости</h2>
+    <a href="/news/" class="view-all-link">Все новости →</a>
+  </div>
+  <ol class="news-snapshot-list" style="list-style: none; padding: 0;">
+  {# ИСПОЛЬЗУЕМ РАБОЧИЙ ФИЛЬТР `head` ВМЕСТО `slice` #}
+  {%- for item in newslist | head(3) -%}
+    <li class="news-snapshot-item">
+      <time datetime="{{ item.date | htmlDateString }}">{{ item.date | readableDate }}</time>
+      <h3><a href="{{ item.url | url }}">{{ item.data.title }}</a></h3>
+    </li>
+  {%- endfor -%}
+  </ol>
+</section>
+{% endif %}
 
-{# --- БЛОК ДЛЯ ГЛАВНОГО ПОСТА --- #}
+
+{# --- БЛОК 2: ГЛАВНАЯ СТАТЬЯ --- #}
+{% set allPosts = collections.posts | reverse %}
+{% set featuredPost = allPosts[0] %}
 {% if featuredPost %}
 <section class="featured-post">
   <div class="featured-post-content">
-    <span class="featured-tag">Свежая Статья</span>
+    <span class="featured-tag">Ключевая Статья</span>
     <h2><a href="{{ featuredPost.url | url }}">{{ featuredPost.data.title }}</a></h2>
     {% if featuredPost.data.description %}
       <p>{{ featuredPost.data.description }}</p>
@@ -24,8 +42,8 @@ eleventyNavigation:
 {% endif %}
 
 
-{# --- СЕТКА ОСТАЛЬНЫХ ПОСТОВ --- #}
-<h2 class="section-title">Остальные Статьи</h2>
+{# --- БЛОК 3: ОСТАЛЬНЫЕ СТАТЬИ --- #}
+<h2 class="section-title">Глубокое Погружение</h2>
 
 <ol reversed class="postlist" style="list-style: none; padding: 0;">
 {# Перебираем ВЕСЬ список постов... #}
